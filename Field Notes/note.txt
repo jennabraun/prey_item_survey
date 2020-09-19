@@ -1,0 +1,1 @@
+I compressed the images using compressjpeg.com -JB
