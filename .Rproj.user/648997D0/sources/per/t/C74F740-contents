@@ -9,7 +9,34 @@ output:
 ```{r setup, include=FALSE}
 library(XLConnect)
 library(ggplot2)
+library(dplyr)
 ```
 
 
+```{r}
+pods <- readWorksheetFromFile("Raw Data/Arthropod_data.xlsx", "Identifications")
+```
 
+# Sampling summary
+
+```{r}
+pods$repID <- paste(pods$site, pods$month, pods$day, pods$microsite, pods$method, pods$rep)
+pods$month <- gsub(" ","", pods$month)
+
+summary <- pods %>% group_by(site, month, microsite, method) %>% summarise(n_distinct(rep))
+
+summary <- summary %>% ungroup() %>% mutate(month_num = case_when(month == "July" ~ 1, month == "Aug" ~ 2, month == "Sept" ~ 3))
+summary <- summary %>% ungroup()
+
+summary <- summary[order(summary$site, summary$month_num, summary$method, summary$microsite),]
+
+count(summary, site)
+summary <- rename(summary, samples = "n_distinct(rep)")
+summary <- select(summary, -month_num)
+```
+
+
+Number of samples (not specimens)
+```{r}
+knitr::kable(summary)
+```
