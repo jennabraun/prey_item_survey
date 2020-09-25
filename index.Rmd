@@ -38,5 +38,6 @@ summary <- select(summary, -month_num)
 
 Number of samples (not specimens)
 ```{r}
+sum(summary$samples)
 knitr::kable(summary)
 ```
