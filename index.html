@@ -1590,13 +1590,13 @@ $(document).ready(function () {
 </div>
 
 <div id="main">
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">pods &lt;-<span class="st"> </span><span class="kw">readWorksheetFromFile</span>(<span class="st">&quot;Raw Data/Arthropod_data.xlsx&quot;</span>, <span class="st">&quot;Identifications&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">active &lt;-<span class="st"> </span><span class="kw">readWorksheetFromFile</span>(<span class="st">&quot;Raw Data/Arthropod_data.xlsx&quot;</span>, <span class="st">&quot;Active&quot;</span>)</a></code></pre></div>
 <div id="sampling-summary" class="section level1">
 <h1>Sampling summary</h1>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">pods<span class="op">$</span>repID &lt;-<span class="st"> </span><span class="kw">paste</span>(pods<span class="op">$</span>site, pods<span class="op">$</span>month, pods<span class="op">$</span>day, pods<span class="op">$</span>microsite, pods<span class="op">$</span>method, pods<span class="op">$</span>rep)</a>
-<a class="sourceLine" id="cb2-2" title="2">pods<span class="op">$</span>month &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot; &quot;</span>,<span class="st">&quot;&quot;</span>, pods<span class="op">$</span>month)</a>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">active<span class="op">$</span>repID &lt;-<span class="st"> </span><span class="kw">paste</span>(active<span class="op">$</span>site, active<span class="op">$</span>month, active<span class="op">$</span>day, active<span class="op">$</span>microsite, active<span class="op">$</span>rep)</a>
+<a class="sourceLine" id="cb2-2" title="2">active<span class="op">$</span>month &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot; &quot;</span>,<span class="st">&quot;&quot;</span>, active<span class="op">$</span>month)</a>
 <a class="sourceLine" id="cb2-3" title="3"></a>
-<a class="sourceLine" id="cb2-4" title="4">summary &lt;-<span class="st"> </span>pods <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(site, month, microsite, method) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="kw">n_distinct</span>(rep))</a></code></pre></div>
+<a class="sourceLine" id="cb2-4" title="4">summary &lt;-<span class="st"> </span>active <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(site, month, microsite, method) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="kw">n_distinct</span>(rep))</a></code></pre></div>
 <pre><code>## `summarise()` regrouping output by &#39;site&#39;, &#39;month&#39;, &#39;microsite&#39; (override with `.groups` argument)</code></pre>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">summary &lt;-<span class="st"> </span>summary <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">month_num =</span> <span class="kw">case_when</span>(month <span class="op">==</span><span class="st"> &quot;July&quot;</span> <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, month <span class="op">==</span><span class="st"> &quot;Aug&quot;</span> <span class="op">~</span><span class="st"> </span><span class="dv">2</span>, month <span class="op">==</span><span class="st"> &quot;Sept&quot;</span> <span class="op">~</span><span class="st"> </span><span class="dv">3</span>))</a>
 <a class="sourceLine" id="cb4-2" title="2">summary &lt;-<span class="st"> </span>summary <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ungroup</span>()</a>
@@ -1604,24 +1604,25 @@ $(document).ready(function () {
 <a class="sourceLine" id="cb4-4" title="4">summary &lt;-<span class="st"> </span>summary[<span class="kw">order</span>(summary<span class="op">$</span>site, summary<span class="op">$</span>month_num, summary<span class="op">$</span>method, summary<span class="op">$</span>microsite),]</a>
 <a class="sourceLine" id="cb4-5" title="5"></a>
 <a class="sourceLine" id="cb4-6" title="6"><span class="kw">count</span>(summary, site)</a></code></pre></div>
-<pre><code>## # A tibble: 10 x 2
+<pre><code>## # A tibble: 11 x 2
 ##    site      n
 ##    &lt;chr&gt; &lt;int&gt;
-##  1 Aven     15
-##  2 CaS      15
-##  3 CaSL     13
-##  4 Coal     13
+##  1 Aven     12
+##  2 CaS      13
+##  3 CaSL      9
+##  4 Coal     11
 ##  5 Lok       1
-##  6 LoK      15
-##  7 Mov      10
-##  8 PaPL     14
-##  9 SemiT    14
-## 10 SiCr     13</code></pre>
+##  6 LoK      12
+##  7 Mov       8
+##  8 PaPL     13
+##  9 SemiT    11
+## 10 SiCr     11
+## 11 &lt;NA&gt;      1</code></pre>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">summary &lt;-<span class="st"> </span><span class="kw">rename</span>(summary, <span class="dt">samples =</span> <span class="st">&quot;n_distinct(rep)&quot;</span>)</a>
 <a class="sourceLine" id="cb6-2" title="2">summary &lt;-<span class="st"> </span><span class="kw">select</span>(summary, <span class="op">-</span>month_num)</a></code></pre></div>
 <p>Number of samples (not specimens)</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">sum</span>(summary<span class="op">$</span>samples)</a></code></pre></div>
-<pre><code>## [1] 761</code></pre>
+<pre><code>## [1] 488</code></pre>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">knitr<span class="op">::</span><span class="kw">kable</span>(summary)</a></code></pre></div>
 <table>
 <thead>
@@ -1645,34 +1646,6 @@ $(document).ready(function () {
 <td align="left">Aven</td>
 <td align="left">July</td>
 <td align="left">open</td>
-<td align="left">MAL</td>
-<td align="right">1</td>
-</tr>
-<tr class="odd">
-<td align="left">Aven</td>
-<td align="left">July</td>
-<td align="left">nolabel</td>
-<td align="left">PT</td>
-<td align="right">1</td>
-</tr>
-<tr class="even">
-<td align="left">Aven</td>
-<td align="left">July</td>
-<td align="left">open</td>
-<td align="left">PT</td>
-<td align="right">9</td>
-</tr>
-<tr class="odd">
-<td align="left">Aven</td>
-<td align="left">July</td>
-<td align="left">shrub</td>
-<td align="left">PT</td>
-<td align="right">12</td>
-</tr>
-<tr class="even">
-<td align="left">Aven</td>
-<td align="left">July</td>
-<td align="left">open</td>
 <td align="left">SS</td>
 <td align="right">5</td>
 </tr>
@@ -1701,127 +1674,85 @@ $(document).ready(function () {
 <td align="left">Aven</td>
 <td align="left">Aug</td>
 <td align="left">open</td>
-<td align="left">MAL</td>
-<td align="right">1</td>
-</tr>
-<tr class="odd">
-<td align="left">Aven</td>
-<td align="left">Aug</td>
-<td align="left">open</td>
-<td align="left">PT</td>
-<td align="right">10</td>
-</tr>
-<tr class="even">
-<td align="left">Aven</td>
-<td align="left">Aug</td>
-<td align="left">shrub</td>
-<td align="left">PT</td>
-<td align="right">12</td>
-</tr>
-<tr class="odd">
-<td align="left">Aven</td>
-<td align="left">Aug</td>
-<td align="left">open</td>
 <td align="left">SS</td>
 <td align="right">1</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Aven</td>
 <td align="left">Aug</td>
 <td align="left">open</td>
 <td align="left">SWP</td>
 <td align="right">6</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Aven</td>
 <td align="left">Aug</td>
 <td align="left">shrub</td>
 <td align="left">SWP</td>
 <td align="right">10</td>
 </tr>
-<tr class="even">
-<td align="left">CaS</td>
-<td align="left">July</td>
+<tr class="odd">
+<td align="left">Aven</td>
+<td align="left">Sept</td>
 <td align="left">NA</td>
 <td align="left">FF</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">Aven</td>
+<td align="left">Sept</td>
+<td align="left">open</td>
+<td align="left">SS</td>
 <td align="right">2</td>
 </tr>
 <tr class="odd">
-<td align="left">CaS</td>
-<td align="left">July</td>
-<td align="left">NA</td>
-<td align="left">MAL</td>
-<td align="right">1</td>
-</tr>
-<tr class="even">
-<td align="left">CaS</td>
-<td align="left">July</td>
-<td align="left">NA</td>
-<td align="left">MAL</td>
-<td align="right">1</td>
-</tr>
-<tr class="odd">
-<td align="left">CaS</td>
-<td align="left">July</td>
+<td align="left">Aven</td>
+<td align="left">Sept</td>
 <td align="left">open</td>
-<td align="left">PT</td>
-<td align="right">10</td>
+<td align="left">SWP</td>
+<td align="right">5</td>
 </tr>
 <tr class="even">
-<td align="left">CaS</td>
-<td align="left">July</td>
+<td align="left">Aven</td>
+<td align="left">Sept</td>
 <td align="left">shrub</td>
-<td align="left">PT</td>
-<td align="right">12</td>
-</tr>
-<tr class="odd">
-<td align="left">CaS</td>
-<td align="left">July</td>
-<td align="left">open</td>
-<td align="left">SS</td>
-<td align="right">8</td>
-</tr>
-<tr class="even">
-<td align="left">CaS</td>
-<td align="left">July</td>
-<td align="left">open</td>
 <td align="left">SWP</td>
 <td align="right">9</td>
 </tr>
 <tr class="odd">
 <td align="left">CaS</td>
 <td align="left">July</td>
+<td align="left">NA</td>
+<td align="left">FF</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">CaS</td>
+<td align="left">July</td>
+<td align="left">open</td>
+<td align="left">SS</td>
+<td align="right">8</td>
+</tr>
+<tr class="odd">
+<td align="left">CaS</td>
+<td align="left">July</td>
+<td align="left">open</td>
+<td align="left">SWP</td>
+<td align="right">9</td>
+</tr>
+<tr class="even">
+<td align="left">CaS</td>
+<td align="left">July</td>
 <td align="left">shrub</td>
 <td align="left">SWP</td>
 <td align="right">10</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">CaS</td>
 <td align="left">Aug</td>
 <td align="left">NA</td>
 <td align="left">FF</td>
 <td align="right">1</td>
-</tr>
-<tr class="odd">
-<td align="left">CaS</td>
-<td align="left">Aug</td>
-<td align="left">open</td>
-<td align="left">MAL</td>
-<td align="right">1</td>
-</tr>
-<tr class="even">
-<td align="left">CaS</td>
-<td align="left">Aug</td>
-<td align="left">open</td>
-<td align="left">PT</td>
-<td align="right">10</td>
-</tr>
-<tr class="odd">
-<td align="left">CaS</td>
-<td align="left">Aug</td>
-<td align="left">shrub</td>
-<td align="left">PT</td>
-<td align="right">10</td>
 </tr>
 <tr class="even">
 <td align="left">CaS</td>
@@ -1845,32 +1776,46 @@ $(document).ready(function () {
 <td align="right">10</td>
 </tr>
 <tr class="odd">
+<td align="left">CaS</td>
+<td align="left">Sept</td>
+<td align="left">open</td>
+<td align="left">FF</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">CaS</td>
+<td align="left">Sept</td>
+<td align="left">NA</td>
+<td align="left">FF</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">CaS</td>
+<td align="left">Sept</td>
+<td align="left">open</td>
+<td align="left">SS</td>
+<td align="right">5</td>
+</tr>
+<tr class="even">
+<td align="left">CaS</td>
+<td align="left">Sept</td>
+<td align="left">open</td>
+<td align="left">SWP</td>
+<td align="right">9</td>
+</tr>
+<tr class="odd">
+<td align="left">CaS</td>
+<td align="left">Sept</td>
+<td align="left">shrub</td>
+<td align="left">SWP</td>
+<td align="right">7</td>
+</tr>
+<tr class="even">
 <td align="left">CaSL</td>
 <td align="left">July</td>
 <td align="left">NA</td>
 <td align="left">FF</td>
 <td align="right">1</td>
-</tr>
-<tr class="even">
-<td align="left">CaSL</td>
-<td align="left">July</td>
-<td align="left">open</td>
-<td align="left">MAL</td>
-<td align="right">1</td>
-</tr>
-<tr class="odd">
-<td align="left">CaSL</td>
-<td align="left">July</td>
-<td align="left">open</td>
-<td align="left">PT</td>
-<td align="right">10</td>
-</tr>
-<tr class="even">
-<td align="left">CaSL</td>
-<td align="left">July</td>
-<td align="left">shrub</td>
-<td align="left">PT</td>
-<td align="right">11</td>
 </tr>
 <tr class="odd">
 <td align="left">CaSL</td>
@@ -1904,72 +1849,44 @@ $(document).ready(function () {
 <td align="left">CaSL</td>
 <td align="left">Aug</td>
 <td align="left">open</td>
-<td align="left">MAL</td>
-<td align="right">1</td>
-</tr>
-<tr class="even">
-<td align="left">CaSL</td>
-<td align="left">Aug</td>
-<td align="left">open</td>
-<td align="left">PT</td>
-<td align="right">12</td>
-</tr>
-<tr class="odd">
-<td align="left">CaSL</td>
-<td align="left">Aug</td>
-<td align="left">shrub</td>
-<td align="left">PT</td>
-<td align="right">10</td>
-</tr>
-<tr class="even">
-<td align="left">CaSL</td>
-<td align="left">Aug</td>
-<td align="left">open</td>
 <td align="left">SS</td>
 <td align="right">7</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">CaSL</td>
 <td align="left">Aug</td>
 <td align="left">open</td>
 <td align="left">SWP</td>
 <td align="right">9</td>
 </tr>
+<tr class="odd">
+<td align="left">CaSL</td>
+<td align="left">Sept</td>
+<td align="left">NA</td>
+<td align="left">FF</td>
+<td align="right">1</td>
+</tr>
 <tr class="even">
+<td align="left">CaSL</td>
+<td align="left">Sept</td>
+<td align="left">open</td>
+<td align="left">SWP</td>
+<td align="right">3</td>
+</tr>
+<tr class="odd">
 <td align="left">Coal</td>
 <td align="left">July</td>
 <td align="left">open</td>
 <td align="left">FF</td>
 <td align="right">1</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Coal</td>
 <td align="left">July</td>
 <td align="left">NA</td>
 <td align="left">FF</td>
 <td align="right">2</td>
 </tr>
-<tr class="even">
-<td align="left">Coal</td>
-<td align="left">July</td>
-<td align="left">open</td>
-<td align="left">MAL</td>
-<td align="right">1</td>
-</tr>
-<tr class="odd">
-<td align="left">Coal</td>
-<td align="left">July</td>
-<td align="left">open</td>
-<td align="left">PT</td>
-<td align="right">12</td>
-</tr>
-<tr class="even">
-<td align="left">Coal</td>
-<td align="left">July</td>
-<td align="left">shrub</td>
-<td align="left">PT</td>
-<td align="right">10</td>
-</tr>
 <tr class="odd">
 <td align="left">Coal</td>
 <td align="left">July</td>
@@ -1995,127 +1912,85 @@ $(document).ready(function () {
 <td align="left">Coal</td>
 <td align="left">Aug</td>
 <td align="left">open</td>
-<td align="left">MAL</td>
-<td align="right">1</td>
-</tr>
-<tr class="odd">
-<td align="left">Coal</td>
-<td align="left">Aug</td>
-<td align="left">open</td>
-<td align="left">PT</td>
-<td align="right">12</td>
-</tr>
-<tr class="even">
-<td align="left">Coal</td>
-<td align="left">Aug</td>
-<td align="left">shrub</td>
-<td align="left">PT</td>
-<td align="right">11</td>
-</tr>
-<tr class="odd">
-<td align="left">Coal</td>
-<td align="left">Aug</td>
-<td align="left">open</td>
 <td align="left">SS</td>
 <td align="right">9</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Coal</td>
 <td align="left">Aug</td>
 <td align="left">open</td>
 <td align="left">SWP</td>
 <td align="right">9</td>
 </tr>
+<tr class="even">
+<td align="left">Coal</td>
+<td align="left">Sept</td>
+<td align="left">open</td>
+<td align="left">FF</td>
+<td align="right">1</td>
+</tr>
 <tr class="odd">
+<td align="left">Coal</td>
+<td align="left">Sept</td>
+<td align="left">NA</td>
+<td align="left">FF</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">Coal</td>
+<td align="left">Sept</td>
+<td align="left">open</td>
+<td align="left">SS</td>
+<td align="right">9</td>
+</tr>
+<tr class="odd">
+<td align="left">Coal</td>
+<td align="left">Sept</td>
+<td align="left">open</td>
+<td align="left">SWP</td>
+<td align="right">9</td>
+</tr>
+<tr class="even">
 <td align="left">Lok</td>
 <td align="left">July</td>
 <td align="left">shrub</td>
 <td align="left">SWP</td>
 <td align="right">2</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">LoK</td>
 <td align="left">July</td>
 <td align="left">NA</td>
 <td align="left">FF</td>
 <td align="right">1</td>
 </tr>
-<tr class="odd">
-<td align="left">LoK</td>
-<td align="left">July</td>
-<td align="left">open</td>
-<td align="left">MAL</td>
-<td align="right">1</td>
-</tr>
 <tr class="even">
-<td align="left">LoK</td>
-<td align="left">July</td>
-<td align="left">nolabel</td>
-<td align="left">PT</td>
-<td align="right">1</td>
-</tr>
-<tr class="odd">
-<td align="left">LoK</td>
-<td align="left">July</td>
-<td align="left">open</td>
-<td align="left">PT</td>
-<td align="right">9</td>
-</tr>
-<tr class="even">
-<td align="left">LoK</td>
-<td align="left">July</td>
-<td align="left">shrub</td>
-<td align="left">PT</td>
-<td align="right">10</td>
-</tr>
-<tr class="odd">
 <td align="left">LoK</td>
 <td align="left">July</td>
 <td align="left">open</td>
 <td align="left">SS</td>
 <td align="right">3</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">LoK</td>
 <td align="left">July</td>
 <td align="left">open</td>
 <td align="left">SWP</td>
 <td align="right">7</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">LoK</td>
 <td align="left">July</td>
 <td align="left">shrub</td>
 <td align="left">SWP</td>
 <td align="right">10</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">LoK</td>
 <td align="left">Aug</td>
 <td align="left">NA</td>
 <td align="left">FF</td>
 <td align="right">1</td>
-</tr>
-<tr class="odd">
-<td align="left">LoK</td>
-<td align="left">Aug</td>
-<td align="left">open</td>
-<td align="left">MAL</td>
-<td align="right">1</td>
-</tr>
-<tr class="even">
-<td align="left">LoK</td>
-<td align="left">Aug</td>
-<td align="left">open</td>
-<td align="left">PT</td>
-<td align="right">12</td>
-</tr>
-<tr class="odd">
-<td align="left">LoK</td>
-<td align="left">Aug</td>
-<td align="left">shrub</td>
-<td align="left">PT</td>
-<td align="right">12</td>
 </tr>
 <tr class="even">
 <td align="left">LoK</td>
@@ -2139,6 +2014,34 @@ $(document).ready(function () {
 <td align="right">10</td>
 </tr>
 <tr class="odd">
+<td align="left">LoK</td>
+<td align="left">Sept</td>
+<td align="left">NA</td>
+<td align="left">FF</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">LoK</td>
+<td align="left">Sept</td>
+<td align="left">open</td>
+<td align="left">SS</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">LoK</td>
+<td align="left">Sept</td>
+<td align="left">open</td>
+<td align="left">SWP</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="left">LoK</td>
+<td align="left">Sept</td>
+<td align="left">shrub</td>
+<td align="left">SWP</td>
+<td align="right">10</td>
+</tr>
+<tr class="odd">
 <td align="left">Mov</td>
 <td align="left">July</td>
 <td align="left">NA</td>
@@ -2146,67 +2049,53 @@ $(document).ready(function () {
 <td align="right">1</td>
 </tr>
 <tr class="even">
-<td align="left">Mov</td>
-<td align="left">July</td>
-<td align="left">open</td>
-<td align="left">MAL</td>
-<td align="right">1</td>
-</tr>
-<tr class="odd">
-<td align="left">Mov</td>
-<td align="left">July</td>
-<td align="left">open</td>
-<td align="left">PT</td>
-<td align="right">12</td>
-</tr>
-<tr class="even">
-<td align="left">Mov</td>
-<td align="left">July</td>
-<td align="left">shrub</td>
-<td align="left">PT</td>
-<td align="right">11</td>
-</tr>
-<tr class="odd">
 <td align="left">Mov</td>
 <td align="left">July</td>
 <td align="left">open</td>
 <td align="left">SS</td>
-<td align="right">9</td>
-</tr>
-<tr class="even">
-<td align="left">Mov</td>
-<td align="left">July</td>
-<td align="left">open</td>
-<td align="left">SWP</td>
-<td align="right">9</td>
-</tr>
-<tr class="odd">
-<td align="left">Mov</td>
-<td align="left">Aug</td>
-<td align="left">NA</td>
-<td align="left">FF</td>
-<td align="right">1</td>
-</tr>
-<tr class="even">
-<td align="left">Mov</td>
-<td align="left">Aug</td>
-<td align="left">open</td>
-<td align="left">PT</td>
-<td align="right">12</td>
-</tr>
-<tr class="odd">
-<td align="left">Mov</td>
-<td align="left">Aug</td>
-<td align="left">shrub</td>
-<td align="left">PT</td>
 <td align="right">10</td>
 </tr>
+<tr class="odd">
+<td align="left">Mov</td>
+<td align="left">July</td>
+<td align="left">open</td>
+<td align="left">SWP</td>
+<td align="right">9</td>
+</tr>
 <tr class="even">
+<td align="left">Mov</td>
+<td align="left">Aug</td>
+<td align="left">NA</td>
+<td align="left">FF</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
 <td align="left">Mov</td>
 <td align="left">Aug</td>
 <td align="left">open</td>
 <td align="left">SWP</td>
 <td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">Mov</td>
+<td align="left">Sept</td>
+<td align="left">NA</td>
+<td align="left">FF</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">Mov</td>
+<td align="left">Sept</td>
+<td align="left">open</td>
+<td align="left">SS</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">Mov</td>
+<td align="left">Sept</td>
+<td align="left">open</td>
+<td align="left">SWP</td>
+<td align="right">3</td>
 </tr>
 <tr class="odd">
 <td align="left">PaPL</td>
@@ -2216,74 +2105,32 @@ $(document).ready(function () {
 <td align="right">2</td>
 </tr>
 <tr class="even">
-<td align="left">PaPL</td>
-<td align="left">July</td>
-<td align="left">open</td>
-<td align="left">MAL</td>
-<td align="right">1</td>
-</tr>
-<tr class="odd">
-<td align="left">PaPL</td>
-<td align="left">July</td>
-<td align="left">open</td>
-<td align="left">PT</td>
-<td align="right">11</td>
-</tr>
-<tr class="even">
-<td align="left">PaPL</td>
-<td align="left">July</td>
-<td align="left">shrub</td>
-<td align="left">PT</td>
-<td align="right">12</td>
-</tr>
-<tr class="odd">
 <td align="left">PaPL</td>
 <td align="left">July</td>
 <td align="left">open</td>
 <td align="left">SS</td>
 <td align="right">5</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">PaPL</td>
 <td align="left">July</td>
 <td align="left">open</td>
 <td align="left">SWP</td>
 <td align="right">7</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">PaPL</td>
 <td align="left">July</td>
 <td align="left">shrub</td>
 <td align="left">SWP</td>
 <td align="right">9</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">PaPL</td>
 <td align="left">Aug</td>
 <td align="left">NA</td>
 <td align="left">FF</td>
 <td align="right">1</td>
-</tr>
-<tr class="odd">
-<td align="left">PaPL</td>
-<td align="left">Aug</td>
-<td align="left">open</td>
-<td align="left">MAL</td>
-<td align="right">1</td>
-</tr>
-<tr class="even">
-<td align="left">PaPL</td>
-<td align="left">Aug</td>
-<td align="left">open</td>
-<td align="left">PT</td>
-<td align="right">12</td>
-</tr>
-<tr class="odd">
-<td align="left">PaPL</td>
-<td align="left">Aug</td>
-<td align="left">shrub</td>
-<td align="left">PT</td>
-<td align="right">11</td>
 </tr>
 <tr class="even">
 <td align="left">PaPL</td>
@@ -2307,32 +2154,46 @@ $(document).ready(function () {
 <td align="right">10</td>
 </tr>
 <tr class="odd">
+<td align="left">PaPL</td>
+<td align="left">Sept</td>
+<td align="left">open</td>
+<td align="left">FF</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">PaPL</td>
+<td align="left">Sept</td>
+<td align="left">NA</td>
+<td align="left">FF</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">PaPL</td>
+<td align="left">Sept</td>
+<td align="left">open</td>
+<td align="left">SS</td>
+<td align="right">5</td>
+</tr>
+<tr class="even">
+<td align="left">PaPL</td>
+<td align="left">Sept</td>
+<td align="left">open</td>
+<td align="left">SWP</td>
+<td align="right">10</td>
+</tr>
+<tr class="odd">
+<td align="left">PaPL</td>
+<td align="left">Sept</td>
+<td align="left">shrub</td>
+<td align="left">SWP</td>
+<td align="right">10</td>
+</tr>
+<tr class="even">
 <td align="left">SemiT</td>
 <td align="left">July</td>
 <td align="left">NA</td>
 <td align="left">FF</td>
 <td align="right">2</td>
-</tr>
-<tr class="even">
-<td align="left">SemiT</td>
-<td align="left">July</td>
-<td align="left">open</td>
-<td align="left">MAL?</td>
-<td align="right">1</td>
-</tr>
-<tr class="odd">
-<td align="left">SemiT</td>
-<td align="left">July</td>
-<td align="left">open</td>
-<td align="left">PT</td>
-<td align="right">11</td>
-</tr>
-<tr class="even">
-<td align="left">SemiT</td>
-<td align="left">July</td>
-<td align="left">shrub</td>
-<td align="left">PT</td>
-<td align="right">12</td>
 </tr>
 <tr class="odd">
 <td align="left">SemiT</td>
@@ -2365,41 +2226,41 @@ $(document).ready(function () {
 <tr class="odd">
 <td align="left">SemiT</td>
 <td align="left">Aug</td>
-<td align="left">NA</td>
-<td align="left">MAL</td>
-<td align="right">1</td>
-</tr>
-<tr class="even">
-<td align="left">SemiT</td>
-<td align="left">Aug</td>
-<td align="left">open</td>
-<td align="left">PT</td>
-<td align="right">12</td>
-</tr>
-<tr class="odd">
-<td align="left">SemiT</td>
-<td align="left">Aug</td>
-<td align="left">shrub</td>
-<td align="left">PT</td>
-<td align="right">11</td>
-</tr>
-<tr class="even">
-<td align="left">SemiT</td>
-<td align="left">Aug</td>
 <td align="left">open</td>
 <td align="left">SS</td>
 <td align="right">2</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">SemiT</td>
 <td align="left">Aug</td>
 <td align="left">open</td>
 <td align="left">SWP</td>
 <td align="right">2</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">SemiT</td>
 <td align="left">Aug</td>
+<td align="left">shrub</td>
+<td align="left">SWP</td>
+<td align="right">6</td>
+</tr>
+<tr class="even">
+<td align="left">SemiT</td>
+<td align="left">Sept</td>
+<td align="left">NA</td>
+<td align="left">FF</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">SemiT</td>
+<td align="left">Sept</td>
+<td align="left">open</td>
+<td align="left">SS</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">SemiT</td>
+<td align="left">Sept</td>
 <td align="left">shrub</td>
 <td align="left">SWP</td>
 <td align="right">6</td>
@@ -2415,71 +2276,29 @@ $(document).ready(function () {
 <td align="left">SiCr</td>
 <td align="left">July</td>
 <td align="left">open</td>
-<td align="left">MAL</td>
-<td align="right">1</td>
-</tr>
-<tr class="odd">
-<td align="left">SiCr</td>
-<td align="left">July</td>
-<td align="left">open</td>
-<td align="left">PT</td>
-<td align="right">11</td>
-</tr>
-<tr class="even">
-<td align="left">SiCr</td>
-<td align="left">July</td>
-<td align="left">shrub</td>
-<td align="left">PT</td>
-<td align="right">12</td>
-</tr>
-<tr class="odd">
-<td align="left">SiCr</td>
-<td align="left">July</td>
-<td align="left">open</td>
 <td align="left">SS</td>
 <td align="right">4</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">SiCr</td>
 <td align="left">July</td>
 <td align="left">open</td>
 <td align="left">SWP</td>
 <td align="right">4</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">SiCr</td>
 <td align="left">July</td>
 <td align="left">shrub</td>
 <td align="left">SWP</td>
 <td align="right">10</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">SiCr</td>
 <td align="left">Aug</td>
 <td align="left">NA</td>
 <td align="left">FF</td>
 <td align="right">1</td>
-</tr>
-<tr class="odd">
-<td align="left">SiCr</td>
-<td align="left">Aug</td>
-<td align="left">NA</td>
-<td align="left">MAL</td>
-<td align="right">1</td>
-</tr>
-<tr class="even">
-<td align="left">SiCr</td>
-<td align="left">Aug</td>
-<td align="left">open</td>
-<td align="left">PT</td>
-<td align="right">6</td>
-</tr>
-<tr class="odd">
-<td align="left">SiCr</td>
-<td align="left">Aug</td>
-<td align="left">shrub</td>
-<td align="left">PT</td>
-<td align="right">10</td>
 </tr>
 <tr class="even">
 <td align="left">SiCr</td>
@@ -2494,9 +2313,53 @@ $(document).ready(function () {
 <td align="left">shrub</td>
 <td align="left">SWP</td>
 <td align="right">10</td>
+</tr>
+<tr class="even">
+<td align="left">SiCr</td>
+<td align="left">Sept</td>
+<td align="left">NA</td>
+<td align="left">FF</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">SiCr</td>
+<td align="left">Sept</td>
+<td align="left">open</td>
+<td align="left">SS</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">SiCr</td>
+<td align="left">Sept</td>
+<td align="left">open</td>
+<td align="left">SWP</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">SiCr</td>
+<td align="left">Sept</td>
+<td align="left">shrub</td>
+<td align="left">SWP</td>
+<td align="right">11</td>
+</tr>
+<tr class="even">
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">1</td>
 </tr>
 </tbody>
 </table>
+<p>Summary stats for sweep net specimens</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">active<span class="op">$</span>quantity &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(active<span class="op">$</span>quantity)</a></code></pre></div>
+<pre><code>## Warning: NAs introduced by coercion</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">sum</span>(active<span class="op">$</span>quantity, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<pre><code>## [1] 2199</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">order &lt;-<span class="st"> </span>active <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(order) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">sum =</span> <span class="kw">sum</span>(quantity, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="kw">ggplot</span>(order, <span class="kw">aes</span>(sum, order)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>)</a></code></pre></div>
+<p><img src="data:image/png;base64,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" width="768" /></p>
 </div>
 </div>
 

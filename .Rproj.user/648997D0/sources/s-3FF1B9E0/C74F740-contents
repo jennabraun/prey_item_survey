@@ -14,16 +14,16 @@ library(dplyr)
 
 
 ```{r}
-pods <- readWorksheetFromFile("Raw Data/Arthropod_data.xlsx", "Identifications")
+active <- readWorksheetFromFile("Raw Data/Arthropod_data.xlsx", "Active")
 ```
 
 # Sampling summary
 
 ```{r}
-pods$repID <- paste(pods$site, pods$month, pods$day, pods$microsite, pods$method, pods$rep)
-pods$month <- gsub(" ","", pods$month)
+active$repID <- paste(active$site, active$month, active$day, active$microsite, active$rep)
+active$month <- gsub(" ","", active$month)
 
-summary <- pods %>% group_by(site, month, microsite, method) %>% summarise(n_distinct(rep))
+summary <- active %>% group_by(site, month, microsite, method) %>% summarise(n_distinct(rep))
 
 summary <- summary %>% ungroup() %>% mutate(month_num = case_when(month == "July" ~ 1, month == "Aug" ~ 2, month == "Sept" ~ 3))
 summary <- summary %>% ungroup()
@@ -40,4 +40,13 @@ Number of samples (not specimens)
 ```{r}
 sum(summary$samples)
 knitr::kable(summary)
+```
+
+Summary stats for sweep net specimens
+```{r}
+active$quantity <- as.numeric(active$quantity)
+sum(active$quantity, na.rm = TRUE)
+order <- active %>% group_by(order) %>% summarise(sum = sum(quantity, na.rm = TRUE))
+ggplot(order, aes(sum, order)) + geom_bar(stat = "identity")
+
 ```
