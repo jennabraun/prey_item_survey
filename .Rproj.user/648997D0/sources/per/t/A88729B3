@@ -1,0 +1,33 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1612991819189.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "A88729B3",
+    "lastKnownWriteTime" : 1980338355696,
+    "last_content_update" : 1612991819189,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "1C3315EF",
+        "caption" : "malcount",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=malcount&cache_key=1C3315EF",
+        "displayedObservations" : 12,
+        "environment" : "",
+        "expression" : "malcount",
+        "object" : "malcount",
+        "preview" : 0,
+        "totalObservations" : 12,
+        "variables" : 2
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

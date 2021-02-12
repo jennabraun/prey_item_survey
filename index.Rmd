@@ -50,3 +50,25 @@ order <- active %>% group_by(order) %>% summarise(sum = sum(quantity, na.rm = TR
 ggplot(order, aes(sum, order)) + geom_bar(stat = "identity")
 
 ```
+
+
+
+```{r}
+#calculations for mark
+
+active <- active %>% group_by(order) %>% summarise(abun = sum(as.numeric(quantity), na.rm = TRUE))
+
+pits <- readWorksheetFromFile("Raw Data/Arthropod_data.xlsx", "Pitfalls")
+pitcount <- pits %>% group_by(order) %>% summarise(abun = sum(as.numeric(quantity), na.rm = TRUE))
+
+mal <-readWorksheetFromFile("Raw Data/Arthropod_data.xlsx", "Malaise")
+malcount <- mal %>% group_by(order) %>% summarise(abun = sum(as.numeric(quantity), na.rm = TRUE))
+  
+  
+write.csv(malcount, "malcount.csv")
+write.csv(pitcount, "pitcount.csv")
+write.csv(active, "active.csv")
+
+ants <- pits %>% filter(family == "Formicidae")
+sum(ants$quantity)
+```
